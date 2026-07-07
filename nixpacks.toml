@@ -2,18 +2,17 @@
   NIXPACKS_PHP_VERSION = "8.4"
   LARAVEL_BYPASS_ENV_CHECK = "1"
 
-[providers]
-  php = true
-  python = true
+[phases.setup]
+  # Force the Linux OS to install Python 3 and pip alongside PHP
+  aptPkgs = ["python3", "python3-pip"]
 
 [phases.install]
   cmds = [
     "composer install --no-dev --optimize-autoloader",
-    "pip install pandas joblib scikit-learn"
+    "python3 -m pip install pandas joblib scikit-learn --break-system-packages"
   ]
 
 [phases.build]
-  # Override Laravel's default build phase to stop it from running 'php artisan migrate'
   cmds = [
     "php artisan optimize:clear",
     "php artisan config:cache",
