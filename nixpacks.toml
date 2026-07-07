@@ -1,3 +1,7 @@
+[env]
+  NIXPACKS_PHP_VERSION = "8.4"
+  LARAVEL_BYPASS_ENV_CHECK = "1"
+
 [providers]
   php = true
   python = true
@@ -6,6 +10,14 @@
   cmds = [
     "composer install --no-dev --optimize-autoloader",
     "pip install pandas joblib scikit-learn"
+  ]
+
+[phases.build]
+  # Override Laravel's default build phase to stop it from running 'php artisan migrate'
+  cmds = [
+    "php artisan optimize:clear",
+    "php artisan config:cache",
+    "php artisan route:cache"
   ]
 
 [phases.start]
