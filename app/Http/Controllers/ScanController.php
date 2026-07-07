@@ -16,17 +16,25 @@ class ScanController extends Controller
 
         $targetUrl = $request->input('url');
 
+        // --- OS DETECTION ---
+        // Check if the server is running Windows or Linux
+        $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+        
+        // Use your local path for Windows, and standard 'python3' for Railway/Linux
+        $pythonCommand = $isWindows ? 'C:\\Python314\\python.exe' : 'python3';
+
         // Initialize the process
-        $process = new Process(['C:\\Python314\\python.exe', base_path('scripts/api_bridge.py'), $targetUrl]);
+        $process = new Process([$pythonCommand, base_path('scripts/api_bridge.py'), $targetUrl]);
         $process->setTimeout(15); 
 
-        // 🛠️ CRUCIAL WINDOWS ENVIRONMENT FIX
-        // This injects Windows core system paths so Python's asyncio layer can load properly
-        $process->setEnv([
-            'SystemRoot' => 'C:\\Windows',
-            'System32' => 'C:\\Windows\\System32',
-            'PATH' => getenv('PATH')
-        ]);
+        // Only inject Windows environment variables if we are actually on Windows!
+        if ($isWindows) {
+            $process->setEnv([
+                'SystemRoot' => 'C:\\Windows',
+                'System32' => 'C:\\Windows\\System32',
+                'PATH' => getenv('PATH')
+            ]);
+        }
 
         try {
             $process->mustRun();
