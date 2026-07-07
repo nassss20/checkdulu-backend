@@ -1,0 +1,14 @@
+[providers]
+  php = true
+  python = true
+
+[phases.install]
+  cmds = [
+    "composer install --no-dev --optimize-autoloader",
+    "npm ci",
+    "npm run build",
+    "pip install -r requirements.txt"
+  ]
+
+[phases.start]
+  cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
