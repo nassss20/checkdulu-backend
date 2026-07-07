@@ -1,3 +1,6 @@
+[env]
+  NIXPACKS_PHP_VERSION = "8.4"
+
 [providers]
   php = true
   python = true
@@ -5,8 +8,6 @@
 [phases.install]
   cmds = [
     "composer install --no-dev --optimize-autoloader",
-    "npm ci",
-    "npm run build",
     "pip install -r requirements.txt"
   ]
 
