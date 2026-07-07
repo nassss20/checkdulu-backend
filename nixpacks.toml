@@ -1,18 +1,12 @@
 [providers]
   php = true
-
-[phases.setup]
-  # Tell the Linux server to install Python 3 and pip
-  aptPkgs = ["python3", "python3-pip"]
+  python = true
 
 [phases.install]
-  # 1. Install Laravel dependencies
-  # 2. Install the Machine Learning libraries globally so Laravel can use them
   cmds = [
     "composer install --no-dev --optimize-autoloader",
-    "pip3 install pandas joblib scikit-learn --break-system-packages"
+    "pip install pandas joblib scikit-learn"
   ]
 
 [phases.start]
-  # Start the Laravel application
   cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
