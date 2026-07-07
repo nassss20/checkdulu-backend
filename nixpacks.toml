@@ -2,16 +2,6 @@
   NIXPACKS_PHP_VERSION = "8.4"
   LARAVEL_BYPASS_ENV_CHECK = "1"
 
-[phases.setup]
-  # Force the Linux OS to install Python 3 and pip alongside PHP
-  aptPkgs = ["python3", "python3-pip"]
-
-[phases.install]
-  cmds = [
-    "composer install --no-dev --optimize-autoloader",
-    "python3 -m pip install pandas joblib scikit-learn --break-system-packages"
-  ]
-
 [phases.build]
   cmds = [
     "php artisan optimize:clear",
