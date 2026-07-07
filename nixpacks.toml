@@ -1,6 +1,15 @@
+providers = ["php", "python"]
+
 [env]
   NIXPACKS_PHP_VERSION = "8.4"
   LARAVEL_BYPASS_ENV_CHECK = "1"
+
+[phases.install]
+  # This tells the server to install PHP packages AND Python packages
+  cmds = [
+    "composer install --no-dev --optimize-autoloader",
+    "python3 -m pip install -r requirements.txt --break-system-packages"
+  ]
 
 [phases.build]
   cmds = [
