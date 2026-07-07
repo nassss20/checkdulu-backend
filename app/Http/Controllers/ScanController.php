@@ -20,7 +20,7 @@ class ScanController extends Controller
         // Check if the server is running Windows or Linux
         $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
         
-        $pythonCommand = $isWindows ? 'C:\\Python314\\python.exe' : 'python';
+        $pythonCommand = $isWindows ? 'C:\\Python314\\python.exe' : 'python3';
 
         // Initialize the process
         $process = new Process([$pythonCommand, base_path('scripts/api_bridge.py'), $targetUrl]);
